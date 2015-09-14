@@ -19,7 +19,7 @@ class ServiceControl(object):
         if conf == "":
             conf = os.path.join(define.APP_BIN, "config.ini")
         try:
-            config = configparser.ConfigParser()
+            config = ConfigParser.ConfigParser()
             config.read(conf)
             for section in config.sections():
                 for option in config.options(section):

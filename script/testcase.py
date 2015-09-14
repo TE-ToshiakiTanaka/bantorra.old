@@ -42,7 +42,7 @@ class TestCase_Base(testcase_base.TestCaseUnit):
             Get Service.
             in the wifi branch, Used service is there.
         """
-        pass
+        cls.core = cls.service["core"].get()
 
     @classmethod
     def get_config(cls, conf=""):
@@ -54,7 +54,7 @@ class TestCase_Base(testcase_base.TestCaseUnit):
         if conf == "":
             conf = os.path.join(define.APP_SCRIPT, "config.ini")
         try:
-            config = configparser.ConfigParser()
+            config = ConfigParser.ConfigParser()
             config.read(conf)
             for section in config.sections():
                 for option in config.options(section):

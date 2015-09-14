@@ -45,7 +45,7 @@ class TestCaseUnit(unittest.TestCase):
         if conf == "":
             conf = os.path.join(define.APP_SCRIPT, "module.ini")
         try:
-            config = configparser.ConfigParser()
+            config = ConfigParser.ConfigParser()
             config.read(conf)
             for section in config.sections():
                 for option in config.options(section):
@@ -66,7 +66,7 @@ class TestCaseUnit(unittest.TestCase):
         if conf == "":
             conf = os.path.join(define.APP_SCRIPT, "config.ini")
         try:
-            config = configparser.ConfigParser()
+            config = ConfigParser.ConfigParser()
             config.read(conf)
             for section in config.sections():
                 for option in config.options(section):
