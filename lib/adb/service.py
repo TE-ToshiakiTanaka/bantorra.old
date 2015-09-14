@@ -20,7 +20,7 @@ FACTORY = Factory()
 
 if __name__ == "__main__":
     import time
-    a = FACTORY.get("84441d01zzzzzzz")
+    a = FACTORY.get("CB5A1WSRDT")
     a.reboot()
     a.root()
     a.remount()
