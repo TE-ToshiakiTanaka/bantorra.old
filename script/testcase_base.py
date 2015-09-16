@@ -22,14 +22,17 @@ class TestCaseUnit(unittest.TestCase):
         base_dir = define.APP_LIB
         cwd = os.getcwd()
         for fdn in os.listdir(base_dir):
-            if fdn.endswith(".pyc") or fdn.endswith(".py"):
-                pass
-            else:
-                sys.path.append(os.path.join(base_dir, fdn))
-                f, n, d = imp.find_module("service")
-                module = imp.load_module("service", f, n, d)
-                cls.service[module.NAME] = module.FACTORY
-                sys.path.remove(os.path.join(base_dir, fdn))
+            try:
+                if fdn.endswith(".pyc") or fdn.endswith(".py"):
+                    pass
+                else:
+                    sys.path.append(os.path.join(base_dir, fdn))
+                    f, n, d = imp.find_module("service")
+                    module = imp.load_module("service", f, n, d)
+                    cls.service[module.NAME] = module.FACTORY
+                    sys.path.remove(os.path.join(base_dir, fdn))
+            except Exception as e:
+                L.warning('error: could not search "service.py" file in %s : %s' % (fdn, e))
 
     @classmethod
     def service_check(cls, conf=""):

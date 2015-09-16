@@ -16,11 +16,8 @@ class TestCase(testcase.TestCase_Base):
         L.info("*** Start TestRunner. Version : %s" % cls.core.version())
         L.info("*** Start TestCase   : %s *** " % __file__)
 
-    def test_step_1(self):
+    def test(self):
         self.assertTrue("master" == str(self.core.version()))
-
-    def test_step_2(self):
-        self.assertTrue(1 == 1)
 
     @classmethod
     def tearDownClass(cls):
