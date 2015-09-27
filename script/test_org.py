@@ -17,7 +17,7 @@ class TestCase(testcase.TestCase_Base):
         L.info("*** Start TestCase   : %s *** " % __file__)
 
     def test(self):
-        self.browser.start()
+        self.browser.start("http://www.dmm.com/netgame/social/-/gadgets/=/app_id=854854/")
         self.login(self.get("args.username"), self.get("args.password"))
         self.assertTrue("kancolle" == str(self.core.version()))
 
