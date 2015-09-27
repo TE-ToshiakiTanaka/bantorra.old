@@ -4,10 +4,15 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
 
-import util
-from util import L
+LIB_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if not LIB_PATH in sys.path:
+    sys.path.insert(0, LIB_PATH)
 
-DEFAULT_WAIT = 30
+from browser import utility
+from browser.utility import APP_TMP
+from browser.utility import APP_DRIVER
+from browser.utility import DEFAULT_WAIT
+from browser.utility import LOG as L
 
 class Selenium(object):
     driver = None
@@ -25,7 +30,7 @@ class Selenium(object):
         if cls.mode == "FireFox":
             cls.driver = webdriver.Firefox()
         else:
-            chromedriver = os.path.join(util.APP_DRIVER, "chromedriver.exe")
+            chromedriver = os.path.join(APP_DRIVER, "chromedriver.exe")
             os.environ["webdriver.chrome.driver"] = chromedriver
             cls.driver = webdriver.Chrome(chromedriver)
         cls.driver.implicitly_wait(DEFAULT_WAIT)
@@ -33,7 +38,7 @@ class Selenium(object):
         cls.driver.get(url)
 
     @classmethod
-    def screenshot(cls, filename="screen.png", host=util.APP_TMP):
+    def screenshot(cls, filename="screen.png", host=APP_TMP):
         f = os.path.join(host, filename)
         cls.driver.save_screenshot(f)
         return f
