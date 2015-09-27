@@ -17,7 +17,9 @@ class TestCase(testcase.TestCase_Base):
         L.info("*** Start TestCase   : %s *** " % __file__)
 
     def test(self):
-        self.assertTrue("master" == str(self.core.version()))
+        self.browser.start()
+        self.login(self.get("args.username"), self.get("args.password"))
+        self.assertTrue("kancolle" == str(self.core.version()))
 
     @classmethod
     def tearDownClass(cls):

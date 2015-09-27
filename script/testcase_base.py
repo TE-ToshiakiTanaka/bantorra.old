@@ -10,12 +10,21 @@ from bantorra.util.log import LOG as L
 
 class TestCaseUnit(unittest.TestCase):
     service = {}
+    config = {}
 
     def __init__(self, *args, **kwargs):
         global service
         super(TestCaseUnit, self).__init__(*args, **kwargs)
         self.service = {}
         self.register()
+
+    @classmethod
+    def set(cls, name, value):
+        cls.config[name] = value
+
+    @classmethod
+    def get(cls, name):
+        return cls.config[name]
 
     @classmethod
     def register(cls):
@@ -33,6 +42,15 @@ class TestCaseUnit(unittest.TestCase):
                     sys.path.remove(os.path.join(base_dir, fdn))
             except Exception as e:
                 L.warning('error: could not search "service.py" file in %s : %s' % (fdn, e))
+
+    @classmethod
+    def get_service(cls):
+        """
+            Get Service.
+            in the wifi branch, Used service is there.
+        """
+        cls.core = cls.service["core"].get()
+        cls.browser = cls.service["browser"].get()
 
     @classmethod
     def service_check(cls, conf=""):

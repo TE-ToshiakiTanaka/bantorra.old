@@ -8,7 +8,6 @@ from bantorra.util import define
 from bantorra.util.log import LOG as L
 
 class TestCase_Base(testcase_base.TestCaseUnit):
-    config = {}
     """
         TestCase_Base.
             - Parse Command Line Argument.
@@ -22,27 +21,28 @@ class TestCase_Base(testcase_base.TestCaseUnit):
         self.service_check()
         self.get_service()
 
-    @classmethod
-    def set(cls, name, value):
-        cls.config[name] = value
-
-    @classmethod
-    def get(cls, name):
-        return cls.config[name]
-
     def parse(self):
         """
             Parse Command Line Arguments.
         """
-        return None
-
-    @classmethod
-    def get_service(cls):
-        """
-            Get Service.
-            in the wifi branch, Used service is there.
-        """
-        cls.core = cls.service["core"].get()
+        parser = argparse.ArgumentParser(description="")
+        parser.add_argument('testcase',
+                            action='store',
+                            type=str,
+                            help='The testcase script.')
+        parser.add_argument('-u', '--username',
+                            action='store',
+                            nargs='?',
+                            type=str,
+                            help='The username of dmm login. (Optional)')
+        parser.add_argument('-p', '--password',
+                            action='store',
+                            nargs='?',
+                            type=str,
+                            help='The password of dmm login. (Optional)')
+        args = parser.parse_args()
+        for k, v in vars(args).items():
+            self.set("args.%s" % k, v)
 
     @classmethod
     def get_config(cls, conf=""):
@@ -50,7 +50,6 @@ class TestCase_Base(testcase_base.TestCaseUnit):
             Get Config File.
             :arg string conf: config file path.
         """
-        cls.config = {}
         if conf == "":
             conf = os.path.join(define.APP_SCRIPT, "config.ini")
         try:
@@ -61,3 +60,6 @@ class TestCase_Base(testcase_base.TestCaseUnit):
                     cls.config["%s.%s" % (section, option)] = config.get(section, option)
         except Exception as e:
             L.warning('error: could not read config file: %s' % e)
+
+    def login(self, username, password):
+        print self.browser.driver
