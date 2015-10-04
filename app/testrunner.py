@@ -17,6 +17,7 @@ class TestRunner(object):
         s.mkdir(define.APP_TMP)
         s.mkdir(define.APP_EXCEL)
         s.mkdir(define.APP_LOG)
+        s.mkdir(define.APP_REPORT)
 
     def load(self, testcase):
         """
@@ -69,7 +70,8 @@ class TestRunner(object):
             module = self.load(script)
             if not module: pass
             else: suite.addTest(loader.loadTestsFromModule(module))
-            unittest.TextTestRunner(verbosity=2).run(suite)
+            #unittest.TextTestRunner(verbosity=2).run(suite)
+            xmlrunner.XMLTestRunner(output=define.APP_REPORT).run(suite)
 
     def search_testcase(self, id, folder=define.APP_SCRIPT):
         """

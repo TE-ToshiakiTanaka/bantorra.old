@@ -8,26 +8,30 @@ from bantorra.util.log import LOG as L
 
 class TestCase_Browser(testcase_base.TestCase_Base):
 
-    def browser_start(self, url):
+    @classmethod
+    def browser_start(cls, url):
         try:
-            return self.browser.start(url)
+            return cls.browser.start(url)
         except Exception as e:
             L.warning(e)
 
-    def browser_screenshot(self, filename="screen.png", host=define.APP_TMP):
+    @classmethod
+    def browser_screenshot(cls, filename="screen.png", host=define.APP_TMP):
         try:
-            return self.browser.screenshot(filename, host)
+            return cls.browser.screenshot(filename, host)
         except Exception as e:
             L.warning(e)
 
-    def browser_click(self, element, x, y):
+    @classmethod
+    def browser_click(cls, element, x, y):
         try:
-            return self.browser.click(element, x, y)
+            return cls.browser.click(element, x, y)
         except Exception as e:
             L.warning(e)
 
-    def browser_quit(self):
+    @classmethod
+    def browser_quit(cls):
         try:
-            return self.browser.quit()
+            return cls.browser.quit()
         except Exception as e:
             L.warning(e)

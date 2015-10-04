@@ -7,13 +7,6 @@ import testcase_service
 from bantorra.util import define
 from bantorra.util.log import LOG as L
 
-<<<<<<< HEAD
-
-class TestCaseUnit(unittest.TestCase):
-    service = {}
-    config = {}
-
-=======
 class TestCase_Base(testcase_service.TestCaseUnit):
     config = {}
     """
@@ -22,57 +15,16 @@ class TestCase_Base(testcase_service.TestCaseUnit):
             - Create Service's Instance.
             - Read Config File and get value.
     """
->>>>>>> origin/master
     def __init__(self, *args, **kwargs):
         super(TestCase_Base, self).__init__(*args, **kwargs)
-        self.parse()
         self.get_config()
+        self.parse()
         self.service_check()
         self.get_service()
 
     @classmethod
     def set(cls, name, value):
         cls.config[name] = value
-<<<<<<< HEAD
-
-    @classmethod
-    def get(cls, name):
-        return cls.config[name]
-
-    @classmethod
-    def register(cls):
-        base_dir = define.APP_LIB
-        cwd = os.getcwd()
-        for fdn in os.listdir(base_dir):
-            try:
-                if fdn.endswith(".pyc") or fdn.endswith(".py"):
-                    pass
-                else:
-                    sys.path.append(os.path.join(base_dir, fdn))
-                    f, n, d = imp.find_module("service")
-                    module = imp.load_module("service", f, n, d)
-                    cls.service[module.NAME] = module.FACTORY
-                    sys.path.remove(os.path.join(base_dir, fdn))
-            except Exception as e:
-                L.warning('error: could not search "service.py" file in %s : %s' % (fdn, e))
-
-    @classmethod
-    def get_service(cls):
-        """
-            Get Service.
-            in the wifi branch, Used service is there.
-        """
-        cls.core = cls.service["core"].get()
-        cls.browser = cls.service["browser"].get()
-
-    @classmethod
-    def service_check(cls, conf=""):
-        serv = cls._service_parse(conf)
-        for s in serv:
-            if not s in cls.service:
-                L.warning("error : not installed service: %s" % s)
-                sys.exit(1)
-=======
 
     @classmethod
     def get(cls, name):
@@ -82,8 +34,22 @@ class TestCase_Base(testcase_service.TestCaseUnit):
         """
             Parse Command Line Arguments.
         """
+        parser = argparse.ArgumentParser()
+        parser.add_argument(action='store', dest='testcase',
+                            help='TestCase Name.')
+        parser.add_argument('-u', action='store', dest='username',
+                            help='Username (E-mail) from DMM.com.')
+        parser.add_argument('-p', action='store', dest='password',
+                            help='Password from DMM.com.')
+
+        parser.add_argument('-f', action='store', dest='fleet',
+                            help='Fleet Number. 1 ~ 4.')
+        parser.add_argument('-e', action='store', dest='expedition',
+                            help='Expedition Number. 1 ~ 38.')
+        results = parser.parse_args()
+        for k, v in vars(results).items():
+            self.set("args.%s" % k, v)
         return None
->>>>>>> origin/master
 
     @classmethod
     def get_service(cls):
@@ -93,6 +59,7 @@ class TestCase_Base(testcase_service.TestCaseUnit):
         """
         cls.core = cls.service["core"].get()
         cls.picture = cls.service["picture"].get()
+        cls.browser = cls.service["browser"].get()
 
     @classmethod
     def get_config(cls, conf=""):

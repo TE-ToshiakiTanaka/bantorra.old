@@ -11,8 +11,8 @@ class Factory(object):
     def __init__(self):
         pass
 
-    def get(self):
-        return Selenium()
+    def get(self, mode="Chrome"):
+        return Selenium(mode)
 
 NAME = "browser"
 FACTORY = Factory()
