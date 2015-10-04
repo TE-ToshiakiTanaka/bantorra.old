@@ -13,7 +13,7 @@ class TestCase(testcase_normal.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        L.info("*** Start TestRunner. Version : %s" % cls.core.version())
+        # L.info("*** Start TestRunner. Version : %s" % cls.core.version())
         L.info("*** Start TestCase   : %s *** " % __file__)
 
     def test_1_login(self):
