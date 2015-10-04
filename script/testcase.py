@@ -1,12 +1,13 @@
-import sys
 import os
-import argparse
-import ConfigParser
+import sys
 
-import testcase_base
+import testcase_browser
+import testcase_picture
+
 from bantorra.util import define
 from bantorra.util.log import LOG as L
 
+<<<<<<< HEAD
 class TestCase_Base(testcase_base.TestCaseUnit):
     """
         TestCase_Base.
@@ -63,3 +64,9 @@ class TestCase_Base(testcase_base.TestCaseUnit):
 
     def login(self, username, password):
         print self.browser.driver
+=======
+class TestCase_Base(testcase_picture.TestCase_Picture,
+                    testcase_browser.TestCase_Browser):
+    def __init__(self, *args, **kwargs):
+        super(TestCase_Base, self).__init__(*args, **kwargs)
+>>>>>>> origin/master

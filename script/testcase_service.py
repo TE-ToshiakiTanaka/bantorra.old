@@ -1,43 +1,21 @@
 import os
 import sys
-import argparse
+import imp
+import unittest
 import ConfigParser
 
-import testcase_service
 from bantorra.util import define
 from bantorra.util.log import LOG as L
 
-<<<<<<< HEAD
 
 class TestCaseUnit(unittest.TestCase):
     service = {}
-    config = {}
 
-=======
-class TestCase_Base(testcase_service.TestCaseUnit):
-    config = {}
-    """
-        TestCase_Base.
-            - Parse Command Line Argument.
-            - Create Service's Instance.
-            - Read Config File and get value.
-    """
->>>>>>> origin/master
     def __init__(self, *args, **kwargs):
-        super(TestCase_Base, self).__init__(*args, **kwargs)
-        self.parse()
-        self.get_config()
-        self.service_check()
-        self.get_service()
-
-    @classmethod
-    def set(cls, name, value):
-        cls.config[name] = value
-<<<<<<< HEAD
-
-    @classmethod
-    def get(cls, name):
-        return cls.config[name]
+        global service
+        super(TestCaseUnit, self).__init__(*args, **kwargs)
+        self.service = {}
+        self.register()
 
     @classmethod
     def register(cls):
@@ -57,42 +35,29 @@ class TestCase_Base(testcase_service.TestCaseUnit):
                 L.warning('error: could not search "service.py" file in %s : %s' % (fdn, e))
 
     @classmethod
-    def get_service(cls):
-        """
-            Get Service.
-            in the wifi branch, Used service is there.
-        """
-        cls.core = cls.service["core"].get()
-        cls.browser = cls.service["browser"].get()
-
-    @classmethod
     def service_check(cls, conf=""):
         serv = cls._service_parse(conf)
         for s in serv:
             if not s in cls.service:
                 L.warning("error : not installed service: %s" % s)
                 sys.exit(1)
-=======
 
     @classmethod
-    def get(cls, name):
-        return cls.config[name]
-
-    def parse(self):
-        """
-            Parse Command Line Arguments.
-        """
-        return None
->>>>>>> origin/master
-
-    @classmethod
-    def get_service(cls):
-        """
-            Get Service.
-            in the wifi branch, Used service is there.
-        """
-        cls.core = cls.service["core"].get()
-        cls.picture = cls.service["picture"].get()
+    def _service_parse(cls, conf=""):
+        result = []
+        if conf == "":
+            conf = os.path.join(define.APP_SCRIPT, "module.ini")
+        try:
+            config = ConfigParser.ConfigParser()
+            config.read(conf)
+            for section in config.sections():
+                for option in config.options(section):
+                    if config.get(section, option) == str(True):
+                        result.append(option)
+            return result
+        except Exception as e:
+            L.warning('error: could not read config file: %s' % e)
+            return result
 
     @classmethod
     def get_config(cls, conf=""):
@@ -111,3 +76,6 @@ class TestCase_Base(testcase_service.TestCaseUnit):
                     cls.config["%s.%s" % (section, option)] = config.get(section, option)
         except Exception as e:
             L.warning('error: could not read config file: %s' % e)
+
+if __name__ == "__main__":
+    unittest.main()
