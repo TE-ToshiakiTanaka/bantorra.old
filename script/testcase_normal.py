@@ -15,6 +15,7 @@ class TestCase(testcase.TestCase_Base):
         self.browser_start(self.get("dmm.url"))
         self.browser_login()
         if not self.enable_timeout("login.png"): return False
+        time.sleep(3)
         self.tap_timeout("login.png", self.get("player.capture"))
         time.sleep(1)
         return self.enable_timeout("home.png")
