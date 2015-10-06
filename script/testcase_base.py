@@ -46,6 +46,11 @@ class TestCase_Base(testcase_service.TestCaseUnit):
                             help='Fleet Number. 1 ~ 4.')
         parser.add_argument('-e', action='store', dest='expedition',
                             help='Expedition Number. 1 ~ 38.')
+        parser.add_argument('-j', action='store', dest='job',
+                            help='Jenkins Job Name.')
+        parser.add_argument('-t', action='store', dest='timeout',
+                            help='Timeout (minites.)')
+        
         results = parser.parse_args()
         for k, v in vars(results).items():
             self.set("args.%s" % k, v)
