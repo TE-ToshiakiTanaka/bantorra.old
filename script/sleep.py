@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+import urllib2
 
 import testcase_normal
 
