@@ -32,7 +32,7 @@ class TestCase(testcase_normal.TestCase):
         finally:
             r.close()
         if result:
-            timeout = int(self.get("args.timeout") * 60)
+            timeout = int(self.get("args.timeout" * 60))
             L.debug("Timeout : %d " % timeout)
             time.sleep(timeout)
         else:
