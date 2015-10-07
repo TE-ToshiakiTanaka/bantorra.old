@@ -53,10 +53,10 @@ class TestCase_Base(testcase_picture.TestCase_Picture,
         if result == None:
             return self.get_target(reference)
         box = (result.x, result.y, result.width + result.x, result.height + result.y)
-        L.debug("Crop Target : %s" % box)
+        L.debug("Crop Target : %s" % str(box))
         L.debug("Reference   : %s " % self.get_target(reference))
         self.picture_crop(
-            self.pic().get_picture(self.get_target(reference)), box, filename)
+            self.picture.get_picture(self.get_target(reference)), box, filename)
         return filename
 
     def find(self, reference, target=""):

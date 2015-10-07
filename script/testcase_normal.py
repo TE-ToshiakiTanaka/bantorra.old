@@ -60,6 +60,31 @@ class TestCase(testcase.TestCase_Base):
         else:
             return False
 
+    def mission(self):
+        if not self.enable_timeout("home.png"):
+            return False
+        for i in xrange(5):
+            self.tap_timeout("mission.png", loop=3, timeout=1); time.sleep(1)
+            if not self.enable("home.png"): break
+            else:
+                self.tap_coordinate(785, 125); time.sleep(1)
+                if not self.enable("home.png"): break
+        if self.enable_timeout("home.png", loop=2, timeout=2): return False
+        if self.tap_timeout("mission_oyodo.png"): time.sleep(1)
+        else: self.tap_coordinate(784, 295); time.sleep(1)
+        sally=1; expedition=1; docking=1; exercises=1
+        while True:
+            self.browser_capture(self.get("player.capture"))
+            while self.tap_timeout("mission_done.png", loop=2, timeout=2):
+                time.sleep(2)
+                self.tap_timeout("mission_done_done.png", loop=2, timeout=2)
+            sally = self.__mission_sally(self.get("player.capture"), id=sally)
+            expedition = self.__mission_expedition(self.get("player.capture"), id=expedition)
+            docking = self.__mission_docking(self.get("player.capture"), id=docking)
+            exercises = self.__mission_exercises(self.get("player.capture"), id=exercises)
+            if not self.tap_timeout("mission_next.png"): break
+        return True
+
     def __expedition_stage(self, id):
         if int(id) > 32: self.tap_timeout("expedition_stage_5.png"); time.sleep(1)
         elif int(id) > 24: self.tap_timeout("expedition_stage_4.png"); time.sleep(1)
@@ -95,6 +120,62 @@ class TestCase(testcase.TestCase_Base):
 
     def __mission_done_id(self, category, id):
         return "mission_%s_%s_done.png" % (self.__mission_category(category), id)
+
+    def __mission_sally(self, capture, id=1):
+        done = id
+        for i in xrange(int(id), 4):
+            if self.enable(self.__mission_id("sally", i), capture):
+                if not self.enable_timeout_crop(
+                    self.__mission_id("sally", i),
+                    "mission_receipt.png",
+                    filename=self.get("player.capture"),
+                    loop=1, timeout=1):
+                    if self.tap(self.__mission_id("sally", i),
+                                target=self.get("player.capture")):
+                        time.sleep(1); done = i
+        return done
+
+    def __mission_expedition(self, capture, id=1):
+        done = id
+        for i in xrange(int(id), 4):
+            if self.enable(self.__mission_id("expedition", i), capture):
+                if not self.enable_timeout_crop(
+                    self.__mission_id("expedition", i),
+                    "mission_receipt.png",
+                    filename=self.get("player.capture"),
+                    loop=1, timeout=1):
+                    if self.tap(self.__mission_id("expedition", i),
+                                target=self.get("player.capture")):
+                        time.sleep(1); done = i
+        return done
+
+    def __mission_docking(self, capture, id=1):
+        done = id
+        for i in xrange(int(id), 3):
+            if self.enable(self.__mission_id("docking", i), capture):
+                if not self.enable_timeout_crop(
+                    self.__mission_id("docking", i),
+                    "mission_receipt.png",
+                    filename=self.get("player.capture"),
+                    loop=1, timeout=1):
+                    if self.tap(self.__mission_id("docking", i),
+                                target=self.get("player.capture")):
+                        time.sleep(1); done = i
+        return done
+
+    def __mission_exercises(self, capture, id=1):
+        done = id
+        for i in xrange(int(id), 3):
+            if self.enable(self.__mission_id("exercises", i), capture):
+                if not self.enable_timeout_crop(
+                    self.__mission_id("exercises", i),
+                    "mission_receipt.png",
+                    filename=self.get("player.capture"),
+                    loop=1, timeout=1):
+                    if self.tap(self.__mission_id("exercises", i),
+                                target=self.get("player.capture")):
+                        time.sleep(1); done = i
+        return done
 
     def __stage(self, stage):
         return "stage_%s.png" % stage
