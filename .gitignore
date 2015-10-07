@@ -59,6 +59,6 @@ target/
 # Project
 excel
 log
-tmp
+tmp/*_TMP.png
 doc
 report
