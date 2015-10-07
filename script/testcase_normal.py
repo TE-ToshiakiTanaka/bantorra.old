@@ -5,6 +5,7 @@ import time
 import testcase
 
 from bantorra.util import define
+from bantorra.util.system import POINT
 from bantorra.util.log import LOG as L
 
 class TestCase(testcase.TestCase_Base):
@@ -84,6 +85,40 @@ class TestCase(testcase.TestCase_Base):
             exercises = self.__mission_exercises(self.get("player.capture"), id=exercises)
             if not self.tap_timeout("mission_next.png"): break
         return True
+
+    def exercises(self):
+        if not self.enable_timeout("home.png"):
+            return False
+        self.tap("sortie.png"); time.sleep(1)
+        self.tap_timeout("exercises.png"); time.sleep(1)
+        p = POINT(int(self.get("position.exercises_x")),
+                  int(self.get("position.exercises_y")),
+                  int(self.get("position.exercises_width")),
+                  int(self.get("position.exercises_height")))
+        for i in xrange(5):
+            p.y = p.y + p.height
+            if self.enable_timeout_crop_box(
+                "exercises_win.png", p, loop=3, timeout=1):
+                L.debug("I'm already fighting. I won.")
+            elif self.enable_timeout_crop_box(
+                "exercises_lose.png", p, loop=3, timeout=1):
+                L.debug("I'm already fighting. I lost.")
+            else:
+                self.tap_coordinate(
+                    (p.x + p.width / 2), (p.y + p.height / 2)); time.sleep(1)
+                self.tap_timeout(
+                    "exercises_attack.png", loop=3, timeout=1); time.sleep(1)
+                if not self.tap_timeout(
+                    "exercises_start.png", loop=3, timeout=1):
+                    return False
+                time.sleep(1)
+                while not self.enable_timeout("next.png", loop=3, timeout=2):
+                    if self.tap("battle_formation.png"): time.sleep(1)
+                    if self.tap("night_warfare_start.png"): time.sleep(1)
+                    time.sleep(10)
+                while self.tap_timeout("next.png", loop=3, timeout=2):
+                    time.sleep(5)
+                return self.enable_timeout("home.png")
 
     def __expedition_stage(self, id):
         if int(id) > 32: self.tap_timeout("expedition_stage_5.png"); time.sleep(1)

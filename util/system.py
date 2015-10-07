@@ -36,6 +36,12 @@ def rm(filename):
     if os.path.exists(filename):
         os.remove(filename)
 
+class POINT(object):
+    def __init__(self, x, y, width, height):
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
 
 if __name__ == "__main__":
     import time
