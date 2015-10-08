@@ -50,7 +50,11 @@ class TestCase_Base(testcase_service.TestCaseUnit):
                             help='Jenkins Job Name.')
         parser.add_argument('-t', action='store', dest='timeout',
                             help='Timeout (minites.)')
-        
+        parser.add_argument('-s', action='store', dest='stage',
+                            help='Sally Stage Number.')
+        parser.add_argument('-a', action='store', dest='area',
+                            help='Sally Stage Area')
+
         results = parser.parse_args()
         for k, v in vars(results).items():
             self.set("args.%s" % k, v)

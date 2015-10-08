@@ -170,17 +170,17 @@ class TestCase(testcase.TestCase_Base):
         if not self.enable_timeout("compass.png"):
             return False
         while not self.enable_timeout("next.png", loop=3, timeout=2):
-            if self.tap("compass.png", self.config["player.capture"]):
-                time.sleep(1); self.capture(self.config["player.capture"])
-            if self.tap("battle_formation.png", self.config["player.capture"]):
-                time.sleep(1); self.capture(self.config["player.capture"])
-            if self.tap("night_warfare_start.png", self.config["player.capture"]):
-                time.sleep(1); self.capture(self.config["player.capture"])
+            if self.tap("compass.png", self.get("player.capture")):
+                time.sleep(1); self.browser_capture(self.get("player.capture"))
+            if self.tap("battle_formation.png", self.get("player.capture")):
+                time.sleep(1); self.browser_capture(self.get("player.capture"))
+            if self.tap("night_warfare_start.png", self.get("player.capture")):
+                time.sleep(1); self.browser_capture(self.get("player.capture"))
             time.sleep(10)
         while self.tap_timeout("next.png", loop=3, timeout=2): time.sleep(5)
         while not self.enable_timeout("withdrawal.png", loop=3, timeout=2):
-            if self.tap("return.png", self.config["player.capture"]):
-                time.sleep(1); self.capture(self.config["player.capture"])
+            if self.tap("return.png", self.get("player.capture")):
+                time.sleep(1); self.browser_capture(self.get("player.capture"))
             time.sleep(10)
         self.tap_timeout("withdrawal.png"); time.sleep(1)
         return self.enable_timeout("home.png")
