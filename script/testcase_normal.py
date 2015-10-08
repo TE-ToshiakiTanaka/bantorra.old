@@ -120,6 +120,71 @@ class TestCase(testcase.TestCase_Base):
                     time.sleep(5)
                 return self.enable_timeout("home.png")
 
+    def docking(self):
+        if not self.enable_timeout("home.png"): return False
+        self.tap("docking.png"); time.sleep(5)
+        for i in xrange(3):
+            position = self.find("docking_room.png")
+            if position == None: break
+            self.tap_timeout("docking_room.png", self.get("player.capture"))
+            time.sleep(5); result = self.__docking()
+            self.tap_coordinate(
+                int(position.x + position.width / 2),
+                int(position.y + position.height / 2))
+            if not result: return True
+        return True
+
+    def __docking(self):
+        if not self.enable_timeout("docking_next.png", loop=3, timeout=2):
+            return False
+        p = POINT(int(self.get("position.dock_ship_x")),
+                  int(self.get("position.dock_ship_y")) - int(self.get("position.dock_ship_height")),
+                  int(self.get("position.dock_ship_width")),
+                  int(self.get("position.dock_ship_height")))
+        for i in xrange(10):
+            p.y = p.y + p.height
+            self.tap_coordinate(
+                (p.x + p.width / 2), (p.y + p.height / 2)); time.sleep(1)
+            time.sleep(1)
+            if self.tap_timeout("docking_start.png", loop=1, timeout=1):
+                if self.tap_timeout("docking_yes.png", loop=2, timeout=1):
+                    time.sleep(5); return True
+            self.tap_coordinate(
+                (p.x + p.width / 6), (p.y + p.height / 2)); time.sleep(1)
+        return False
+
+    def sally(self, fleet, stage, area):
+        if not self.enable_timeout("home.png"): return False
+        self.tap("sortie.png"); time.sleep(1)
+        self.tap_timeout("sally.png"); time.sleep(1)
+        self.tap_timeout(self.__stage(stage)); time.sleep(1)
+        self.tap_timeout(self.__area(stage, area)); time.sleep(1)
+        self.tap_timeout("expedition_decide.png", loop=3, timeout=2); time.sleep(1)
+        if not self.enable_timeout(self.__fleet_focus(fleet), loop=3, timeout=2):
+            self.tap_timeout(self.__fleet(fleet)); time.sleep(1)
+        self.tap_timeout("sally_start.png")
+        return self.enable_timeout("compass.png", loop=5, timeout=5)
+
+
+    def battle(self):
+        if not self.enable_timeout("compass.png"):
+            return False
+        while not self.enable_timeout("next.png", loop=3, timeout=2):
+            if self.tap("compass.png", self.config["player.capture"]):
+                time.sleep(1); self.capture(self.config["player.capture"])
+            if self.tap("battle_formation.png", self.config["player.capture"]):
+                time.sleep(1); self.capture(self.config["player.capture"])
+            if self.tap("night_warfare_start.png", self.config["player.capture"]):
+                time.sleep(1); self.capture(self.config["player.capture"])
+            time.sleep(10)
+        while self.tap_timeout("next.png", loop=3, timeout=2): time.sleep(5)
+        while not self.enable_timeout("withdrawal.png", loop=3, timeout=2):
+            if self.tap("return.png", self.config["player.capture"]):
+                time.sleep(1); self.capture(self.config["player.capture"])
+            time.sleep(10)
+        self.tap_timeout("withdrawal.png"); time.sleep(1)
+        return self.enable_timeout("home.png")
+
     def __expedition_stage(self, id):
         if int(id) > 32: self.tap_timeout("expedition_stage_5.png"); time.sleep(1)
         elif int(id) > 24: self.tap_timeout("expedition_stage_4.png"); time.sleep(1)
