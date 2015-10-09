@@ -38,9 +38,11 @@ class TestCase(testcase.TestCase_Base):
         self.tap(self.__fleet(fleet)); time.sleep(1)
         if not self.enable_timeout(self.__fleet_focus(fleet)):
             return False
-        while self.tap_timeout("supply_check.png", loop=3, timeout=2): time.sleep(2)
-        self.tap_timeout("supply_decide.png")
-        return self.enable_timeout("supply_done.png")
+        self.tap_timeout("supply_check.png", loop=3, timeout=2)
+        while self.enable_timeout("supply_done.png", loop=3, timeout=2):
+            self.tap_timeout("supply_check.png", loop=3, timeout=2)
+            time.sleep(2)
+        return not self.enable_timeout("supply_done.png", loop=3, timeout=2)
 
     def expedition(self, fleet, id):
         if not self.enable_timeout("home.png"):

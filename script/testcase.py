@@ -107,4 +107,6 @@ class TestCase_Base(testcase_picture.TestCase_Picture,
     def tap_timeout(self, reference, target="", loop=5, timeout=5):
         if not self.enable_timeout(reference, target, loop, timeout):
             return False
-        return self.tap(reference)
+        flag = self.tap(reference)
+        L.debug("tap result : %s" % flag)
+        return flag

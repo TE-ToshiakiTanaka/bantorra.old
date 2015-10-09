@@ -20,21 +20,15 @@ class TestCase(testcase_normal.TestCase):
         L.info("*** Login ***")
         self.assertTrue(self.kancolle_login())
 
-    def test_2_supply(self):
+    def test_2_exercises(self):
+        L.info("*** Exercises ***")
+        while self.expedition_result(): time.sleep(3)
+        self.assertTrue(self.exercises())
+
+    def test_3_supply(self):
         L.info("*** Supply ***")
         while self.expedition_result(): time.sleep(3)
         self.assertTrue(self.supply(self.get("args.fleet")))
-
-    def test_3_return_home(self):
-        L.info("*** Return Home ***")
-        self.assertTrue(self.return_home())
-
-    def test_4_expedition(self):
-        L.info("*** Expedition ***")
-        while self.expedition_result(): time.sleep(3)
-        self.assertTrue(self.expedition(
-            self.get("args.fleet"),
-            self.get("args.expedition")))
 
     @classmethod
     def tearDownClass(cls):
