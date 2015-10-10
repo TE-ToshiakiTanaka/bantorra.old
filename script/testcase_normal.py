@@ -55,7 +55,7 @@ class TestCase(testcase.TestCase_Base):
         if not self.enable_timeout(self.__fleet_focus(fleet)):
             self.tap(self.__fleet(fleet)); time.sleep(1)
         if self.enable_timeout("expedition_done.png"):
-            return False
+            return True
         self.tap_timeout("expedition_start.png")
         if self.enable_timeout("expedition_done.png"):
             return self.enable_timeout(self.__fleet_focus(fleet)) \
