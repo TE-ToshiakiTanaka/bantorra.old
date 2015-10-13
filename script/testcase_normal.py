@@ -40,6 +40,7 @@ class TestCase(testcase.TestCase_Base):
             return False
         self.tap_timeout("supply_check.png", loop=3, timeout=2)
         while self.enable_timeout("supply_done.png", loop=3, timeout=2):
+            if self.enable_timeout("cat.png", loop=3, timeout=2): break
             self.tap_timeout("supply_check.png", loop=3, timeout=2)
             time.sleep(2)
         return not self.enable_timeout("supply_done.png", loop=3, timeout=2)
@@ -81,11 +82,13 @@ class TestCase(testcase.TestCase_Base):
             while self.tap_timeout("mission_done.png", loop=2, timeout=2):
                 time.sleep(2)
                 self.tap_timeout("mission_done_done.png", loop=2, timeout=2)
+                if self.enable_timeout("cat.png", loop=3, timeout=2): break
             sally = self.__mission_sally(self.get("player.capture"), id=sally)
             expedition = self.__mission_expedition(self.get("player.capture"), id=expedition)
             docking = self.__mission_docking(self.get("player.capture"), id=docking)
             exercises = self.__mission_exercises(self.get("player.capture"), id=exercises)
             if not self.tap_timeout("mission_next.png"): break
+            if self.enable_timeout("cat.png", loop=3, timeout=2): break
         return True
 
     def exercises(self):
@@ -115,10 +118,12 @@ class TestCase(testcase.TestCase_Base):
                     return False
                 time.sleep(1)
                 while not self.enable_timeout("next.png", loop=3, timeout=2):
+                    if self.enable_timeout("cat.png", loop=3, timeout=2): break
                     if self.tap("battle_formation.png"): time.sleep(1)
                     if self.tap("night_warfare_start.png"): time.sleep(1)
                     time.sleep(10)
                 while self.tap_timeout("next.png", loop=3, timeout=2):
+                    if self.enable_timeout("cat.png", loop=3, timeout=2): break
                     time.sleep(5)
                 return self.enable_timeout("home.png")
 
@@ -172,6 +177,7 @@ class TestCase(testcase.TestCase_Base):
         if not self.enable_timeout("compass.png"):
             return False
         while not self.enable_timeout("next.png", loop=3, timeout=2):
+            if self.enable_timeout("cat.png", loop=3, timeout=2): break
             if self.tap("compass.png", self.get("player.capture")):
                 time.sleep(1); self.browser_capture(self.get("player.capture"))
             if self.tap("battle_formation.png", self.get("player.capture")):
@@ -179,8 +185,11 @@ class TestCase(testcase.TestCase_Base):
             if self.tap("night_warfare_start.png", self.get("player.capture")):
                 time.sleep(1); self.browser_capture(self.get("player.capture"))
             time.sleep(10)
-        while self.tap_timeout("next.png", loop=3, timeout=2): time.sleep(5)
+        while self.tap_timeout("next.png", loop=3, timeout=2):
+            if self.enable_timeout("cat.png", loop=3, timeout=2): break
+            time.sleep(5)
         while not self.enable_timeout("withdrawal.png", loop=3, timeout=2):
+            if self.enable_timeout("cat.png", loop=3, timeout=2): break
             if self.tap("return.png", self.get("player.capture")):
                 time.sleep(1); self.browser_capture(self.get("player.capture"))
             time.sleep(10)
