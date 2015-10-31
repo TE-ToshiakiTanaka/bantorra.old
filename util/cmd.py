@@ -61,4 +61,4 @@ class Console(object):
 CONSOLE = Console()
 
 if __name__ == "__main__":
-    print CONSOLE.execute("ls -la")
+    print CONSOLE.execute("python C:\\Users\\setsulla\\Repository\\python\\bantorra\\bin\\kancolle\\server.py -p 5000")
