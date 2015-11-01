@@ -61,3 +61,23 @@ excel
 log
 tmp
 report
+
+# JAR
+lib/*.apk
+lib/*.ap_
+lib/*.dex
+lib/*.class
+lib/adb/jar/*/bin/
+lib/adb/jar/*/gen/
+lib/adb/jar/*/local.properties
+lib/adb/jar/*/.classpath
+lib/adb/jar/*/.project
+lib/adb/jar/*/proguard/
+*.iml
+*.ipr
+*.iws
+lib/adb/jar/*/.idea/workspace.xml
+lib/adb/jar/*/.idea/tasks.xml
+lib/adb/jar/*/.idea/libraries/
+lib/adb/jar/*/.gradle
+lib/adb/jar/*/build
