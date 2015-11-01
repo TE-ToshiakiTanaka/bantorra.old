@@ -1,0 +1,27 @@
+import org.apache.tools.ant.*
+
+ProjectHelper.configureProject(ant.project, file('build.xml'));
+def sdkDir = ant.properties['sdk.dir']
+
+['build', 'install', 'clean'].each { antTargetName ->
+    task "uiautomator${antTargetName.capitalize()}" << {
+        ant.project.executeTarget(antTargetName)
+    }
+}
+
+apply plugin: 'java'
+
+def targetDir = ant.properties['target']
+
+dependencies {
+    compile files("${sdkDir}/platforms/${targetDir}/android.jar")
+    compile files("${sdkDir}/platforms/${targetDir}/uiautomator.jar")
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src'
+        }
+    }
+}
