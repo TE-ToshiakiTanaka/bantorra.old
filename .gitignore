@@ -62,6 +62,15 @@ log
 tmp
 report
 
+# APK
+.gradle
+lib/adb/apk/*/local.properties
+lib/adb/apk/*/.idea/workspace.xml
+lib/adb/apk/*/.idea/libraries
+lib/adb/apk/*/.DS_Store
+lib/adb/apk/*/build
+lib/adb/apk/*/captures
+
 # JAR
 lib/*.apk
 lib/*.ap_
