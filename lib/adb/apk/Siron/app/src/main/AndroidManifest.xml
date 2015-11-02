@@ -1,0 +1,14 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="jp.setsulla.bantorra.siron">
+
+    <application android:allowBackup="true" android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher" android:theme="@style/AppTheme">
+        <service android:name=".SironService" >
+            <intent-filter>
+                <action android:name="jp.setsulla.bantorra.siron.DEBUG_ON" />
+
+            </intent-filter>
+        </service>
+    </application>
+
+</manifest>

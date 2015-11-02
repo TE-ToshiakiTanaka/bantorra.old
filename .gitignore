@@ -64,6 +64,7 @@ report
 
 # APK
 .gradle
+*.apk
 lib/adb/apk/*/local.properties
 lib/adb/apk/*/.idea/workspace.xml
 lib/adb/apk/*/.idea/libraries
